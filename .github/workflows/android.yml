@@ -1,4 +1,4 @@
-name: Android Build
+name: Build Android APK 2026
 
 on:
   workflow_dispatch:
@@ -6,21 +6,27 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - name: set up JDK 17
+      - name: 1. Получаем код
+        uses: actions/checkout@v4
+
+      - name: 2. Устанавливаем JDK 21 (актуальная версия)
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
           cache: gradle
 
-      - name: Grant execute permission for gradlew
+      - name: 3. Права для Gradle
         run: chmod +x gradlew
-      - name: Build with Gradle
-        run: ./gradlew assembleDebug
-      - name: Upload APK
+
+      - name: 4. Собираем APK
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: 5. Сохраняем готовый APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug.apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: MyVpnApp
+          path: app/build/outputs/apk/debug/*.apk
+          retention-days: 7
