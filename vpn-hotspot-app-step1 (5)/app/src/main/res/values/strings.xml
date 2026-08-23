@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Vpn Hotspot</string>
+
+    <!-- Foreground service -->
+    <string name="notif_channel_id">vpn_server_channel</string>
+    <string name="notif_channel_name">Сервер раздачи интернета</string>
+    <string name="notif_channel_desc">Постоянное уведомление, пока работает локальный VPN-сервер</string>
+    <string name="notif_title">Сервер активен</string>
+    <string name="notif_text">Раздаю интернет на ПК · порт 10808</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_server_off">Сервер остановлен</string>
+    <string name="dashboard_start">Старт сервера</string>
+    <string name="dashboard_stop">Стоп сервера</string>
+</resources>

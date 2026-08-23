@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Базовая палитра. Compose-тема (Шаг 4) будет переопределять визуал. -->
+    <color name="ic_launcher_background">#0F172A</color>
+
+    <color name="primary">#10B981</color>     <!-- emerald-500 -->
+    <color name="primary_dark">#047857</color>  <!-- emerald-700 -->
+    <color name="background_light">#FFFFFF</color>
+    <color name="background_dark">#0F172A</color>
+</resources>

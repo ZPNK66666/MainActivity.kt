@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Базовая тема для Activity (до того, как Compose перерисует экран).
+         Используем DeviceDefault, чтобы не тянуть Material Components (XML) —
+         вся визуальная часть идёт через Compose Material3. -->
+    <style name="Theme.VpnHotspotApp" parent="android:Theme.DeviceDefault.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

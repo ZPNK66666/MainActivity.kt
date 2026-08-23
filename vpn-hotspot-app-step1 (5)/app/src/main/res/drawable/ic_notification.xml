@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Нотификационные иконки обязаны быть белыми силуэтами (monochrome).
+     Android сам подкрашивает их под системную тему. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="#FFFFFF">
+    <!-- Щит + волна раздачи -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M12,2 L4,5 V11 C4,16 7,20 12,22 C17,20 20,16 20,11 V5 L12,2 Z M12,4.3 L18,6.5 V11 C18,14.8 15.7,18 12,19.6 C8.3,18 6,14.8 6,11 V6.5 L12,4.3 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M8,12 L16,12 L16,14 L8,14 Z" />
+</vector>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ===================== СЕТЕВЫЕ РАЗРЕШЕНИЯ ===================== -->
+
+    <!-- Открытие TCP-сервера (Xray inbound) и исходящие соединения -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Чтение состояния сети (есть ли интернет, тип подключения) -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Чтение состояния Wi-Fi (для WifiLock HIGH_PERF и определения локального IP) -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <!-- WifiLock требует возможности менять состояние Wi-Fi (чтобы не уходил в power-save) -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+
+    <!-- ===================== WAKE LOCK / FOREGROUND ===================== -->
+
+    <!-- PARTIAL_WAKE_LOCK — телефон не засыпает, пока работает сервер -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- Сам факт foreground-сервиса (до API 33 достаточно этого) -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <!-- Android 14+ (API 34): тип foreground-сервиса.
+         dataSync — раздача сетевых данных (наш локальный прокси-сервер). -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+
+    <!-- Зарезервировано: если позже добавим VpnService для апстрима
+         (чтобы сам телефон тоже обходил блокировки). Системное разрешение. -->
+    <uses-permission android:name="android.permission.BIND_VPN_SERVICE" />
+
+    <!-- ===================== УВЕДОМЛЕНИЯ (Android 13+) ===================== -->
+    <!-- Foreground-нотификация на Android 13+ требует POST_NOTIFICATIONS -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- ===================== СТАРТ ПО ЗАГРУЗКЕ ===================== -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- Опционально: чтение уровня батареи через BatteryManager -->
+    <uses-permission android:name="android.permission.BATTERY_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- ===================== ПРИЛОЖЕНИЕ ===================== -->
+    <application
+        android:name=".VpnHotspotApp"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.VpnHotspotApp"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="34">
+
+        <!-- Главная (и единственная) Activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:configChanges="orientation|screenSize|keyboardHidden|uiMode|density"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.VpnHotspotApp">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Foreground-сервис раздачи интернета (Шаг 2: VpnServerService).
+             foregroundServiceType=dataSync — обязателен на Android 14+.
+             Держит WakeLock + WifiLock + постоянное уведомление. -->
+        <service
+            android:name=".service.VpnServerService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
+        <!-- Авто-старт сервера после загрузки устройства -->
+        <receiver
+            android:name=".service.BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>
